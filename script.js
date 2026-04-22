@@ -34,8 +34,11 @@ function loadTransactions() {
 
 
 function addTransaction() {
-    const desc = document.getElementById("text").value;
-    const amount = parseFloat(document.getElementById("amount").value);
+    let desc = document.getElementById("desc").value;
+    let amount = document.getElementById("amount").value;
+
+    // Treat everything as expense for now
+    amount = -Math.abs(amount);
 
     fetch("http://localhost:8080/addTransaction", {
         method: "POST",
@@ -44,10 +47,10 @@ function addTransaction() {
         },
         body: JSON.stringify({
             description: desc,
-            amount: amount
+            amount: amount,
+            date: new Date().toISOString().split("T")[0]
         })
-    })
-    .then(() => loadTransactions());
+    });
 }
 
 
@@ -57,6 +60,13 @@ function deleteTransaction(id) {
     })
     .then(() => loadTransactions());
 }
+async function loadSummary() {
+    const total = await fetch("http://localhost:8080/total").then(r => r.text());
+    const monthly = await fetch("http://localhost:8080/monthly").then(r => r.text());
+    const predict = await fetch("http://localhost:8080/predict").then(r => r.text());
+    const alert = await fetch("http://localhost:8080/budget-alert").then(r => r.text());
 
+    console.log(total, monthly, predict, alert);
+}
 
 window.onload = loadTransactions;
