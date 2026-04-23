@@ -27,6 +27,7 @@ function loadTransactions() {
                 li.appendChild(btn);
                 list.appendChild(li);
 
+                // ✅ calculate
                 if (t.amount >= 0) {
                     income += t.amount;
                 } else {
@@ -34,14 +35,15 @@ function loadTransactions() {
                 }
 
                 labels.push(t.description);
-                values.push(Math.abs(t.amount));
+                values.push(t.amount); // IMPORTANT
             });
 
+            // ✅ update UI
             document.getElementById("income").textContent = "₹" + income;
             document.getElementById("expenses").textContent = "₹" + expense;
             document.getElementById("balance").textContent = "₹" + (income - expense);
 
-            // PIE CHART
+            // 🔵 PIE CHART
             const pieCtx = document.getElementById("pieChart").getContext("2d");
 
             if (pieChart) pieChart.destroy();
@@ -51,12 +53,13 @@ function loadTransactions() {
                 data: {
                     labels: ["Income", "Expenses"],
                     datasets: [{
-                        data: [income, expense]
+                        data: [income, expense],
+                        backgroundColor: ["green", "red"]
                     }]
                 }
             });
 
-            // BAR CHART
+            // 🔵 BAR CHART
             const barCtx = document.getElementById("barChart").getContext("2d");
 
             if (barChart) barChart.destroy();
@@ -67,18 +70,25 @@ function loadTransactions() {
                     labels: labels,
                     datasets: [{
                         label: "Transactions",
-                        data: values
+                        data: values,
+                        backgroundColor: values.map(v => v >= 0 ? "green" : "red")
                     }]
                 }
             });
 
-        });
+        })
+        .catch(err => console.error(err));
 }
 
 function addTransaction() {
 
     const desc = document.getElementById("text").value;
     const amount = parseFloat(document.getElementById("amount").value);
+
+    if (!desc || isNaN(amount)) {
+        alert("Enter valid data");
+        return;
+    }
 
     fetch("http://localhost:8080/addTransaction", {
         method: "POST",
@@ -91,6 +101,8 @@ function addTransaction() {
         })
     })
     .then(() => {
+        document.getElementById("text").value = "";
+        document.getElementById("amount").value = "";
         loadTransactions();
     });
 }

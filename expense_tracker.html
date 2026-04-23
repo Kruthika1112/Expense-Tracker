@@ -3,6 +3,7 @@
 <head>
     <title>Expense Tracker</title>
 
+    <!-- ✅ IMPORTANT: Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="stylesheet" href="style.css">
@@ -30,18 +31,14 @@
     <h3>History</h3>
     <ul id="list"></ul>
 
-    <!-- DASHBOARD -->
-    <div class="dashboard">
-        <div class="card">
-            <h3>Income vs Expense</h3>
-            <canvas id="pieChart"></canvas>
-        </div>
+    <hr>
 
-        <div class="card">
-            <h3>Transactions Overview</h3>
-            <canvas id="barChart"></canvas>
-        </div>
-    </div>
+    <!-- ✅ CHARTS -->
+    <h3>Income vs Expense</h3>
+    <canvas id="pieChart" height="200"></canvas>
+
+    <h3>Transactions Overview</h3>
+    <canvas id="barChart" height="200"></canvas>
 
 </div>
 
