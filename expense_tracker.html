@@ -2,22 +2,48 @@
 <html>
 <head>
     <title>Expense Tracker</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h2>Expense Tracker</h2>
+<div class="container">
 
-<input id="text" placeholder="Description">
-<input id="amount" type="number" placeholder="Amount">
+    <h2>Expense Tracker</h2>
 
-<button onclick="addTransaction()">Add Transaction</button>
-<button onclick="logout()">Logout</button>
+    <h3>Balance: <span id="balance">₹0</span></h3>
+    <h4>Income: <span id="income">₹0</span></h4>
+    <h4>Expenses: <span id="expenses">₹0</span></h4>
 
-<h3>Income: <span id="income">₹0</span></h3>
-<h3>Expenses: <span id="expenses">₹0</span></h3>
-<h3>Balance: <span id="balance">₹0</span></h3>
+    <hr>
 
-<ul id="list"></ul>
+    <input id="text" placeholder="Description">
+    <input id="amount" type="number" placeholder="Amount">
+
+    <button onclick="addTransaction()">Add Transaction</button>
+
+    <hr>
+
+    <h3>History</h3>
+    <ul id="list"></ul>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+        <div class="card">
+            <h3>Income vs Expense</h3>
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h3>Transactions Overview</h3>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+</div>
 
 <script src="script.js"></script>
 
